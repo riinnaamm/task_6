@@ -3,10 +3,12 @@ from flask import Flask, render_template, request
 import chromadb
 from sentence_transformers import SentenceTransformer
 from google import genai
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
-API_KEY = os.environ.get("GOOGLE_API_KEY", "AQ.Ab8RN6I0Pxt-xvTjrcxTI1jxvKLdXluV7_EUxLjdSa_murnllA")
+API_KEY = os.environ.get("GOOGLE_API_KEY")
 client = genai.Client(api_key=API_KEY)
 
 CATEGORIES = "програмування, штучний інтелект, бази даних, комп'ютерні мережі"
