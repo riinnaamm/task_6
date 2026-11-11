@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота № 6</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+<div class="container bg-white p-4 rounded shadow-sm">
+    <h2 class="mb-4">Лабораторна робота № 6: Порівняння підходів (Prompt, RAG, Fine-tuning)</h2>
+    
+    <form method="POST" class="mb-4">
+        <label for="query" class="form-label font-weight-bold">Введіть текст для класифікації (або оберіть зі списку нижче):</label>
+        <div class="input-group">
+            <input type="text" id="query" name="query" class="form-control" 
+                   placeholder="Наприклад: Python підтримує списки та кортежі" value="{{ query }}" required>
+            <button type="submit" class="btn btn-primary">Класифікувати 3-ма підходами</button>
+        </div>
+    </form>
+
+    {% if query %}
+    <hr>
+    <h3>Результати аналізу для запиту: "{{ query }}"</h3>
+    
+    <div class="row mt-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-primary mb-3 h-100">
+                <div class="card-header bg-primary text-white">1. Prompt Engineering</div>
+                <div class="card-body">
+                    <h5 class="card-title">Визначена категорія:</h5>
+                    <p class="card-text fw-bold text-success fs-5">{{ pe_res }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-warning mb-3 h-100">
+                <div class="card-header bg-warning text-dark">2. RAG</div>
+                <div class="card-body">
+                    <h5 class="card-title">Визначена категорія:</h5>
+                    <p class="card-text fw-bold text-success fs-5">{{ rag_res }}</p>
+                    <hr>
+                    <small class="text-muted"><strong>Знайдений контекст у ChromaDB:</strong><br>{{ rag_context }}</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-info mb-3 h-100">
+                <div class="card-header bg-info text-white">3. Імітація Fine-tuning</div>
+                <div class="card-body">
+                    <h5 class="card-title">Визначена категорія:</h5>
+                    <p class="card-text fw-bold text-success fs-5">{{ ft_res }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <hr>
+    <h4>Список 7 тестових прикладів:</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>№</th>
+                    <th>Текст прикладу</th>
+                    <th>Еталонна категорія</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sample in samples %}
+                <tr>
+                    <td>{{ sample.id }}</td>
+                    <td>{{ sample.text }}</td>
+                    <td><span class="badge bg-secondary">{{ sample.expected }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
